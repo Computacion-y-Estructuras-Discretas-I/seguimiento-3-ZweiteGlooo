@@ -64,8 +64,37 @@ public class Main {
      * @return true si esta balanceada, false si no
      */
     public boolean verificarBalanceo(String s) {
-        // TODO: completar 
-        return false;
+         int len = s.length();
+         char[] leftChars = {'{', '[', '('};
+         char[] rightChars = {'}', ']', ')'};
+
+         PilaGenerica<Character> pila = new PilaGenerica<>(len);
+
+         if(len == 0) return true;
+         else{
+             for (int i = 0; i < len; i++) {
+                 char c = s.charAt(i);
+
+                 for (int j = 0; j < leftChars.length; j++) {
+                     if (c == leftChars[j]) {
+                         pila.Push(c);
+                         break;
+                     }
+                 }
+
+                 if(pila.isEmpty()) return false;
+
+                 for (int j = 0; j < rightChars.length; j++) {
+                     if (c == rightChars[j]) {
+                         char top = pila.Pop();
+                         if (top != leftChars[j]) return false;
+                     }
+                 }
+             }
+
+             if (!pila.isEmpty()) return false;
+         }
+        return true;
     }
 
     /**
@@ -74,7 +103,33 @@ public class Main {
      * @param objetivo suma objetivo
      */
     public void encontrarParesConSuma(int[] numeros, int objetivo) {
-        // TODO: completar
+        try{
+            boolean found = false;
+            TablasHash seen = new TablasHash(numeros.length);
+            TablasHash used = new TablasHash(numeros.length);
+
+            for (int num: numeros){
+                seen.insert(num, num);
+            }
+
+            for (int num1: numeros){
+                int num2 = objetivo - num1;
+                if (num1!=num2 && seen.search(num2,num2) && !used.search(num1, num1) && !used.search(num2,num2)) {
+                    System.out.print("(" + num1 + ", " + num2 + ")");
+                    used.insert(num1, num1);
+                    used.insert(num2, num2);
+                    found = true;
+                }
+            }
+
+            if(!found){
+                System.out.println("No hay pares para " + objetivo);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public static void main(String[] args) throws Exception {

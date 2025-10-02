@@ -54,4 +54,9 @@ public class PilaGenerica<T> {
   public void setSize(int size) {
     this.size = size;
   }
+
+  public boolean isEmpty(){
+      if(top == 0) return true;
+      return false;
+  }
 }

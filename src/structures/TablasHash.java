@@ -67,8 +67,6 @@ public class TablasHash {
   }
 
   private int hashFunction(int k) throws Exception{
-    
-    return k % this.size;
-
+    return ((k % this.size) + this.size) % this.size;
   }
 }
